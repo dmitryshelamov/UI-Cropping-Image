@@ -1,5 +1,17 @@
 # UI-Cropping-Image
-A simply UI cropping image library for WPF that use adroner layer.
+A simply UI cropping image library for WPF that use adroner layer. Some screenshots:
+
+Interface of sample app
+
+<img src="https://github.com/dmitryshelamov/UI-Cropping-Image/blob/master/cropped-demo.png" width="400">
+
+Cropping result image
+
+<img src="https://github.com/dmitryshelamov/UI-Cropping-Image/blob/master/cropped-result.png" width="400">
+
+Cropping result image info
+
+<img src="https://github.com/dmitryshelamov/UI-Cropping-Image/blob/master/cropped-result-info.png" width="400">
 
 # Main Workflow:
 1. Load image
