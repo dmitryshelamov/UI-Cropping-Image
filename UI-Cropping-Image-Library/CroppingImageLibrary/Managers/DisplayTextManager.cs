@@ -41,8 +41,8 @@ namespace CroppingImageLibrary.Managers
         /// </summary>
         public void UpdateSizeText()
         {
-            double offsetTop  = 2;
-            double offsetLeft = 5;
+            const double offsetTop  = 2;
+            const double offsetLeft = 5;
 
             double calculateTop = _rectangleManager.TopLeft.Y - _sizeTextBlock.ActualHeight - offsetTop;
             if (calculateTop < 0)

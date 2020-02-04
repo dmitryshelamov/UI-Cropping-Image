@@ -15,8 +15,9 @@ namespace CroppingImageLibrary.Managers
         private readonly Rectangle _rectangle;
         private readonly Rectangle _dashedRectangle;
         private readonly Canvas    _canvas;
-        private          bool      _isDrawing;
-        private          bool      _isDragging;
+
+        private bool _isDrawing;
+        private bool _isDragging;
 
         private Point _topLeft;
         private Point _bottomRight;

@@ -101,10 +101,10 @@ namespace CroppingImageLibrary.Managers
         /// <summary>
         ///     Manage thumbs visibility
         /// </summary>
-        /// <param name="isVisble">Set current visibility</param>
-        public void ShowThumbs(bool isVisble)
+        /// <param name="isVisible">Set current visibility</param>
+        public void ShowThumbs(bool isVisible)
         {
-            if (isVisble && _rectangleManager.RectangleHeight > 0 && _rectangleManager.RectangleWidth > 0)
+            if (isVisible && _rectangleManager.RectangleHeight > 0 && _rectangleManager.RectangleWidth > 0)
             {
                 _bottomMiddle.Visibility = Visibility.Visible;
                 _leftMiddle.Visibility   = Visibility.Visible;

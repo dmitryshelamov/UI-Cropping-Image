@@ -19,17 +19,14 @@ namespace CroppingImageLibrary
         private readonly OverlayManager     _overlayManager;
         private readonly ThumbManager       _thumbManager;
         private readonly DisplayTextManager _displayTextManager;
-
-        private readonly VisualCollection _visualCollection;
-        private readonly Canvas           _canvasOverlay;
-        private readonly Canvas           _originalCanvas;
+        private readonly VisualCollection   _visualCollection;
+        private readonly Canvas             _canvasOverlay;
 
         private bool _isMouseLeftButtonDown;
 
         public CroppingAdorner(UIElement adornedElement) : base(adornedElement)
         {
             _visualCollection   = new VisualCollection(this);
-            _originalCanvas     = (Canvas) adornedElement;
             _canvasOverlay      = new Canvas();
             _rectangleManager   = new RectangleManager(_canvasOverlay);
             _overlayManager     = new OverlayManager(_canvasOverlay, _rectangleManager);
@@ -44,17 +41,13 @@ namespace CroppingImageLibrary
             //add overlay
             Loaded += (sender, args) => { _overlayManager.UpdateOverlay(); };
 
-            //if rectangle size chanhed, re-draw overlay
+            //if rectangle size changed, re-draw overlay
             _rectangleManager.RectangleSizeChanged += (sender, args) =>
             {
                 _overlayManager.UpdateOverlay();
                 _displayTextManager.UpdateSizeText();
             };
-            _rectangleManager.OnRectangleDoubleClickEvent += (sender, args) =>
-            {
-                if (OnRectangleDoubleClickEvent != null)
-                    OnRectangleDoubleClickEvent(sender, new DoubleClickEventArgs {BitmapFrame = GetCroppedBitmapFrame()});
-            };
+            _rectangleManager.OnRectangleDoubleClickEvent += (sender, args) => OnRectangleDoubleClickEvent?.Invoke(sender, new DoubleClickEventArgs {BitmapFrame = GetCroppedBitmapFrame()});
         }
 
         public event EventHandler<DoubleClickEventArgs> OnRectangleDoubleClickEvent;
@@ -63,49 +56,46 @@ namespace CroppingImageLibrary
         // the adorner's visual collection.
         protected override int VisualChildrenCount => _visualCollection.Count;
 
+        public CroppedArea GetCroppedArea() =>
+            new CroppedArea(
+                AdornedElement.RenderSize,
+                new Rect(_rectangleManager.TopLeft, new Size(_rectangleManager.RectangleWidth, _rectangleManager.RectangleHeight))
+            );
+
         /// <summary>
         ///     Get cropping areas as BitmapFrame
         /// </summary>
         /// <returns></returns>
         public BitmapFrame GetCroppedBitmapFrame()
         {
-            var parent = VisualTreeHelper.GetParent(_originalCanvas) as UIElement;
+            var parent = VisualTreeHelper.GetParent(AdornedElement) as UIElement;
             // 1) get current dpi
-            PresentationSource pSource = PresentationSource.FromVisual(Application.Current.MainWindow);
-            Matrix             m       = pSource.CompositionTarget.TransformToDevice;
-            double             dpiX    = m.M11 * 96;
-            double             dpiY    = m.M22 * 96;
+            var    pSource = PresentationSource.FromVisual(Application.Current.MainWindow);
+            Matrix m       = pSource.CompositionTarget.TransformToDevice;
+            double dpiX    = m.M11 * 96;
+            double dpiY    = m.M22 * 96;
 
             // 2) create RenderTargetBitmap
-            RenderTargetBitmap elementBitmap =
-                new RenderTargetBitmap(
-                    (int) _originalCanvas.ActualWidth,
-                    (int) _originalCanvas.ActualHeight,
-                    dpiX,
-                    dpiY,
-                    PixelFormats.Pbgra32
-                );
-
-            elementBitmap = new RenderTargetBitmap(
-                (int) _originalCanvas.RenderSize.Width,
-                (int) _originalCanvas.RenderSize.Height,
+            var elementBitmap = new RenderTargetBitmap(
+                (int) AdornedElement.RenderSize.Width,
+                (int) AdornedElement.RenderSize.Height,
                 dpiX,
                 dpiY,
                 PixelFormats.Default
             );
 
             //Important
-            _originalCanvas.Measure(_originalCanvas.RenderSize);
-            _originalCanvas.Arrange(new Rect(_originalCanvas.RenderSize));
+            AdornedElement.Measure(AdornedElement.RenderSize);
+            AdornedElement.Arrange(new Rect(AdornedElement.RenderSize));
 
             // 3) draw element
-            elementBitmap.Render(_originalCanvas);
+            elementBitmap.Render(AdornedElement);
 
             if (parent != null)
             {
                 //Important
-                parent.Measure(_originalCanvas.RenderSize);
-                parent.Arrange(new Rect(_originalCanvas.RenderSize));
+                parent.Measure(AdornedElement.RenderSize);
+                parent.Arrange(new Rect(AdornedElement.RenderSize));
             }
 
             var crop = new CroppedBitmap(
@@ -129,7 +119,9 @@ namespace CroppingImageLibrary
         {
             _rectangleManager.MouseLeftButtonDownEventHandler(e);
             _overlayManager.UpdateOverlay();
-            if (_rectangleManager.RectangleWidth == 0 && _rectangleManager.RectangleHeight == 0)
+
+            const double tolerance = 0.00001;
+            if (Math.Abs(_rectangleManager.RectangleWidth) < tolerance && Math.Abs(_rectangleManager.RectangleHeight) < tolerance)
             {
                 _thumbManager.ShowThumbs(false);
                 _displayTextManager.ShowText(false);
@@ -152,15 +144,15 @@ namespace CroppingImageLibrary
 
         private void MouseMoveEventHandler(object sender, MouseEventArgs e)
         {
-            if (_isMouseLeftButtonDown)
-            {
-                _rectangleManager.MouseMoveEventHandler(e);
-                _overlayManager.UpdateOverlay();
-                _thumbManager.ShowThumbs(true);
-                _displayTextManager.ShowText(true);
-                _displayTextManager.UpdateSizeText();
-                _thumbManager.UpdateThumbsPosition();
-            }
+            if (!_isMouseLeftButtonDown)
+                return;
+
+            _rectangleManager.MouseMoveEventHandler(e);
+            _overlayManager.UpdateOverlay();
+            _thumbManager.ShowThumbs(true);
+            _displayTextManager.ShowText(true);
+            _displayTextManager.UpdateSizeText();
+            _thumbManager.UpdateThumbsPosition();
         }
 
         private void MouseLeftButtonUpEventHandler(object sender, MouseButtonEventArgs e)

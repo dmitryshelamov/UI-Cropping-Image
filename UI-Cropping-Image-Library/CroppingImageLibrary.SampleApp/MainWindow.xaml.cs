@@ -9,7 +9,7 @@ namespace CroppingImageLibrary.SampleApp
     /// <summary>
     ///     Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         private CroppingWindow _croppingWindow;
 
@@ -44,32 +44,34 @@ namespace CroppingImageLibrary.SampleApp
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             BitmapFrame croppedBitmapFrame = _croppingWindow.CroppingAdorner.GetCroppedBitmapFrame();
+            
+            // Instead of GetCroppedBitmap, you can use GetCroppingInfo
+            
             //create PNG image
             BitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(croppedBitmapFrame));
-            //save image to file
 
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.FileName   = "TestCropping";           // Default file name
-            dlg.DefaultExt = ".png";                   // Default file extension
-            dlg.Filter     = "Image png (.png)|*.png"; // Filter files by extension
+            //save image to file
+            SaveFileDialog dlg = new SaveFileDialog
+            {
+                FileName   = "TestCropping",          // Default file name
+                DefaultExt = ".png",                  // Default file extension
+                Filter     = "Image png (.png)|*.png" // Filter files by extension
+            };
 
             // Show save file dialog box
             bool? result = dlg.ShowDialog();
 
             // Process save file dialog box results
-            if (result == true)
-            {
-                // Save document
-                string filename = dlg.FileName;
-                using (FileStream imageFile =
-                    new FileStream(filename, FileMode.Create, FileAccess.Write))
-                {
-                    encoder.Save(imageFile);
-                    imageFile.Flush();
-                    imageFile.Close();
-                }
-            }
+            if (result != true)
+                return;
+
+            // Save document
+            string           filename  = dlg.FileName;
+            using FileStream imageFile = new FileStream(filename, FileMode.Create, FileAccess.Write);
+            encoder.Save(imageFile);
+            imageFile.Flush();
+            imageFile.Close();
         }
     }
 }

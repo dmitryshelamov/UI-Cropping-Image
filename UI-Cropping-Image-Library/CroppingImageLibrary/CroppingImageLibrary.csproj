@@ -46,6 +46,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CroppedArea.cs" />
     <Compile Include="CroppingAdorner.cs" />
     <Compile Include="Managers\DisplayTextManager.cs" />
     <Compile Include="Managers\OverlayManager.cs" />
