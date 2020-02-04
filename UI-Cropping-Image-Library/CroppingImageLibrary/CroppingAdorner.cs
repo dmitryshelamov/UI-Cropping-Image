@@ -11,7 +11,7 @@ using CroppingImageLibrary.Utils;
 namespace CroppingImageLibrary
 {
     /// <summary>
-    ///     Class that response for cropping images
+    ///     Adorner that provides image cropping overlay on adorned <see cref="UIElement"/>.
     /// </summary>
     public class CroppingAdorner : Adorner
     {
