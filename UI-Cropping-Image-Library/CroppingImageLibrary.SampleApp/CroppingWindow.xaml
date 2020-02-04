@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:CroppingImageLibrary.SampleApp"
         mc:Ignorable="d"
         Title="CroppingWindow" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="Manual">
-    <Grid x:Name="RootGrid" MouseLeftButtonDown="RootGrid_OnMouseLeftButtonDown">
-        <Canvas x:Name="CanvasPanel"
-                    Grid.Column="1">
-            <Border Height="{Binding ElementName=CanvasPanel, Path=ActualHeight}" Width="{Binding ElementName=CanvasPanel, Path=ActualWidth}" Background="LightBlue">
-                <Image x:Name = "SourceImage"
-                           Stretch="Fill"/>
-            </Border>
+	<Grid x:Name="RootGrid" MouseLeftButtonDown="RootGrid_OnMouseLeftButtonDown">
+		<Canvas x:Name="CanvasPanel"
+		        Grid.Column="1">
+			<Border Height="{Binding ElementName=CanvasPanel, Path=ActualHeight}" Width="{Binding ElementName=CanvasPanel, Path=ActualWidth}" Background="LightBlue">
+				<Image x:Name="SourceImage"
+				       Stretch="Fill" />
+			</Border>
 
-        </Canvas>
-    </Grid>
+		</Canvas>
+	</Grid>
 </Window>

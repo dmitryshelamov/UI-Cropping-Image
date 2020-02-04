@@ -1,12 +1,11 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 
 namespace CroppingImageLibrary.SampleApp
 {
     /// <summary>
-    /// Interaction logic for CroppingWindow.xaml
+    ///     Interaction logic for CroppingWindow.xaml
     /// </summary>
     public partial class CroppingWindow : Window
     {
