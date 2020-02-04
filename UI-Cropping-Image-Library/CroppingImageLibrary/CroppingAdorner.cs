@@ -56,6 +56,9 @@ namespace CroppingImageLibrary
         // the adorner's visual collection.
         protected override int VisualChildrenCount => _visualCollection.Count;
 
+        /// <summary>
+        ///     Returns cropping rect info selected by user.
+        /// </summary>
         public CroppedArea GetCroppedArea() =>
             new CroppedArea(
                 AdornedElement.RenderSize,
