@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
 
@@ -24,8 +25,10 @@ namespace CroppingImageLibrary.SampleApp
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(CanvasPanel);
-            CroppingAdorner = new CroppingAdorner(CanvasPanel);
+            CroppingAdorner = new CroppingAdorner(RootGrid);
+
+            var adornerLayer = AdornerLayer.GetAdornerLayer(RootGrid);
+            Debug.Assert(adornerLayer != null, nameof(adornerLayer) + " != null");
             adornerLayer.Add(CroppingAdorner);
         }
     }
