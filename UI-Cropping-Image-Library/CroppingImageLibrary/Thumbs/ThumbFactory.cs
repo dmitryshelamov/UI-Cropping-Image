@@ -7,7 +7,7 @@ namespace CroppingImageLibrary.Thumbs
     internal class ThumbFactory
     {
         /// <summary>
-        /// Available thumbs positions
+        ///     Available thumbs positions
         /// </summary>
         public enum ThumbPosition
         {
@@ -22,7 +22,7 @@ namespace CroppingImageLibrary.Thumbs
         }
 
         /// <summary>
-        /// Thumb factory
+        ///     Thumb factory
         /// </summary>
         /// <param name="thumbPosition">Thumb positions</param>
         /// <param name="canvas">Parent UI element that we will attach thumb as child</param>
@@ -30,41 +30,34 @@ namespace CroppingImageLibrary.Thumbs
         /// <returns></returns>
         public static ThumbCrop CreateThumb(ThumbPosition thumbPosition, Canvas canvas, double size)
         {
-            ThumbCrop customThumb = new ThumbCrop(size);
-            customThumb.Cursor = GetCursor(thumbPosition);
-            customThumb.Visibility = Visibility.Hidden;
+            var customThumb = new ThumbCrop(size)
+            {
+                Cursor     = GetCursor(thumbPosition),
+                Visibility = Visibility.Hidden
+            };
             canvas.Children.Add(customThumb);
             return customThumb;
         }
 
         /// <summary>
-        /// Display proper cursor to corresponding thumb
+        ///     Display proper cursor to corresponding thumb
         /// </summary>
         /// <param name="thumbPosition">Thumb position</param>
         /// <returns></returns>
         private static Cursor GetCursor(ThumbPosition thumbPosition)
         {
-            switch (thumbPosition)
+            return thumbPosition switch
             {
-                case (ThumbPosition.TopLeft):
-                    return Cursors.SizeNWSE;
-                case (ThumbPosition.TopMiddle):
-                    return Cursors.SizeNS;
-                case (ThumbPosition.TopRight):
-                    return Cursors.SizeNESW;
-                case (ThumbPosition.RightMiddle):
-                    return Cursors.SizeWE;
-                case (ThumbPosition.BottomRight):
-                    return Cursors.SizeNWSE;
-                case (ThumbPosition.BottomMiddle):
-                    return Cursors.SizeNS;
-                case (ThumbPosition.BottomLeft):
-                    return Cursors.SizeNESW;
-                case (ThumbPosition.LeftMiddle):
-                    return Cursors.SizeWE;
-                default:
-                    return null;
-            }
+                ThumbPosition.TopLeft      => Cursors.SizeNWSE,
+                ThumbPosition.TopMiddle    => Cursors.SizeNS,
+                ThumbPosition.TopRight     => Cursors.SizeNESW,
+                ThumbPosition.RightMiddle  => Cursors.SizeWE,
+                ThumbPosition.BottomRight  => Cursors.SizeNWSE,
+                ThumbPosition.BottomMiddle => Cursors.SizeNS,
+                ThumbPosition.BottomLeft   => Cursors.SizeNESW,
+                ThumbPosition.LeftMiddle   => Cursors.SizeWE,
+                _                          => null
+            };
         }
     }
 }

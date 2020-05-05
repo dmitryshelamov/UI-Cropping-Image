@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:CroppingImageLibrary.SampleApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="130" Width="165" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
-    <Grid>
-        <Button Content="Load Image" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="125" Click="Button_Click"/>
-        <Button Content="Cropping and Save" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Width="125" Click="Button_Click_1"/>
+	<Grid>
+		<Button Content="Load Image" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="125" Click="Button_Click" />
+		<Button Content="Cropping and Save" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Width="125" Click="Button_Click_1" />
 
-    </Grid>
+	</Grid>
 </Window>
