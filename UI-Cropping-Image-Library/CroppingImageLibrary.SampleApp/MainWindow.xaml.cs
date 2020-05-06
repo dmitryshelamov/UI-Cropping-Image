@@ -1,5 +1,5 @@
 ﻿using System;
-using System.IO;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
@@ -12,6 +12,8 @@ namespace CroppingImageLibrary.SampleApp
     public partial class MainWindow
     {
         private CroppingWindow _croppingWindow;
+        // private BitmapImage bitmapImage;
+        private Bitmap sourceBitmap;
 
         public MainWindow()
         {
@@ -19,7 +21,7 @@ namespace CroppingImageLibrary.SampleApp
             Topmost = true;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_LoadImage(object sender, RoutedEventArgs e)
         {
             if (_croppingWindow != null)
                 return;
@@ -28,50 +30,51 @@ namespace CroppingImageLibrary.SampleApp
             op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" + "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" + "Portable Network Graphic (*.png)|*.png";
             if (op.ShowDialog() == true)
             {
-                _croppingWindow        =  new CroppingWindow();
+                sourceBitmap = new Bitmap(op.FileName);
+                _croppingWindow = new CroppingWindow(new BitmapImage(new Uri(op.FileName)));
                 _croppingWindow.Closed += (a, b) => _croppingWindow = null;
-                _croppingWindow.Height =  new BitmapImage(new Uri(op.FileName)).Height;
-                _croppingWindow.Width  =  new BitmapImage(new Uri(op.FileName)).Width;
-
-                _croppingWindow.SourceImage.Source = new BitmapImage(new Uri(op.FileName));
-                _croppingWindow.SourceImage.Height = new BitmapImage(new Uri(op.FileName)).Height;
-                _croppingWindow.SourceImage.Width  = new BitmapImage(new Uri(op.FileName)).Width;
+                _croppingWindow.Height = new BitmapImage(new Uri(op.FileName)).Height;
+                _croppingWindow.Width  = new BitmapImage(new Uri(op.FileName)).Width;
 
                 _croppingWindow.Show();
             }
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Button_SaveImage(object sender, RoutedEventArgs e)
         {
-            BitmapFrame croppedBitmapFrame = _croppingWindow.CroppingAdorner.GetCroppedBitmapFrame();
-            
-            // Instead of GetCroppedBitmap, you can use GetCroppingInfo
-            
-            //create PNG image
-            BitmapEncoder encoder = new PngBitmapEncoder();
-            encoder.Frames.Add(BitmapFrame.Create(croppedBitmapFrame));
+            var cropArea = _croppingWindow.CropTool.WorkSpace.GetCroppedArea();
+
+            System.Drawing.Rectangle cropRect = new System.Drawing.Rectangle((int) cropArea.CroppedRectAbsolute.X,
+                (int) cropArea.CroppedRectAbsolute.Y, (int) cropArea.CroppedRectAbsolute.Width,
+                (int) cropArea.CroppedRectAbsolute.Height);
+
+            Bitmap target = new Bitmap(cropRect.Width, cropRect.Height);
+
+            using (Graphics g = Graphics.FromImage(target))
+            {
+                g.DrawImage(sourceBitmap, new System.Drawing.Rectangle(0, 0, target.Width, target.Height),
+                    cropRect,
+                    GraphicsUnit.Pixel);
+            }
 
             //save image to file
             SaveFileDialog dlg = new SaveFileDialog
             {
-                FileName   = "TestCropping",          // Default file name
+                FileName = "TestCropping",          // Default file name
                 DefaultExt = ".png",                  // Default file extension
-                Filter     = "Image png (.png)|*.png" // Filter files by extension
+                Filter = "Image png (.png)|*.png" // Filter files by extension
             };
-
+            
             // Show save file dialog box
             bool? result = dlg.ShowDialog();
-
+            
             // Process save file dialog box results
             if (result != true)
                 return;
-
+            
             // Save document
-            string           filename  = dlg.FileName;
-            using FileStream imageFile = new FileStream(filename, FileMode.Create, FileAccess.Write);
-            encoder.Save(imageFile);
-            imageFile.Flush();
-            imageFile.Close();
+            string filename  = dlg.FileName;
+            target.Save(filename);
         }
     }
 }

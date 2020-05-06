@@ -3,12 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:croppingImageLibrary="clr-namespace:CroppingImageLibrary;assembly=CroppingImageLibrary"
         mc:Ignorable="d"
-        Title="CroppingWindow" Loaded="Window_Loaded" ResizeMode="NoResize" WindowStartupLocation="Manual">
-	<Grid x:Name="RootGrid" MouseLeftButtonDown="RootGrid_OnMouseLeftButtonDown">
-		<Border Background="LightBlue">
-			<Image x:Name="SourceImage"
-			       Stretch="Fill" />
-		</Border>
-	</Grid>
+        Title="CroppingWindow" ResizeMode="NoResize" WindowStartupLocation="Manual" SizeToContent ="WidthAndHeight">
+    <croppingImageLibrary:CropToolControl Name="CropTool"></croppingImageLibrary:CropToolControl>
 </Window>

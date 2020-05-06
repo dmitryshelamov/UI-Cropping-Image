@@ -46,16 +46,29 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CroppedArea.cs" />
-    <Compile Include="CroppingAdorner.cs" />
-    <Compile Include="Managers\DisplayTextManager.cs" />
-    <Compile Include="Managers\OverlayManager.cs" />
-    <Compile Include="Managers\RectangleManager.cs" />
+    <Compile Include="CropToolControl.xaml.cs">
+      <DependentUpon>CropToolControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Thumbs\ThumbCrop.cs" />
-    <Compile Include="Thumbs\ThumbFactory.cs" />
-    <Compile Include="Managers\ThumbManager.cs" />
-    <Compile Include="Utils\DoubleClickEventArgs.cs" />
+    <Compile Include="Services\CropAdorner.cs" />
+    <Compile Include="Services\CropService.cs" />
+    <Compile Include="Services\State\IToolState.cs" />
+    <Compile Include="Services\State\Position.cs" />
+    <Compile Include="Services\State\CompleteState.cs" />
+    <Compile Include="Services\State\CreateState.cs" />
+    <Compile Include="Services\State\DragState.cs" />
+    <Compile Include="Services\Tools\CropShape.cs" />
+    <Compile Include="Services\Tools\CropTool.cs" />
+    <Compile Include="Services\Tools\ShadeTool.cs" />
+    <Compile Include="Services\Tools\TextTool.cs" />
+    <Compile Include="Services\Tools\ThumbTool.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Page Include="CropToolControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
