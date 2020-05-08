@@ -42,7 +42,7 @@ namespace CroppingImageLibrary.SampleApp
 
         private void Button_SaveImage(object sender, RoutedEventArgs e)
         {
-            var cropArea = _croppingWindow.CropTool.WorkSpace.GetCroppedArea();
+            var cropArea = _croppingWindow.CropTool.CropService.GetCroppedArea();
 
             System.Drawing.Rectangle cropRect = new System.Drawing.Rectangle((int) cropArea.CroppedRectAbsolute.X,
                 (int) cropArea.CroppedRectAbsolute.Y, (int) cropArea.CroppedRectAbsolute.Width,
