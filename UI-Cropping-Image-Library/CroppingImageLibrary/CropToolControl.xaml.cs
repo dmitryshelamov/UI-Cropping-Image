@@ -12,7 +12,7 @@ namespace CroppingImageLibrary
     /// </summary>
     public partial class CropToolControl : UserControl
     {
-        public CropService WorkSpace { get; private set; }
+        public CropService CropService { get; private set; }
 
         public CropToolControl()
         {
@@ -21,17 +21,17 @@ namespace CroppingImageLibrary
 
         private void RootGrid_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            WorkSpace.Adorner.RaiseEvent(e);
+            CropService.Adorner.RaiseEvent(e);
         }
 
         private void RootGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            WorkSpace.Adorner.RaiseEvent(e);
+            CropService.Adorner.RaiseEvent(e);
         }
 
         private void RootGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            WorkSpace = new CropService(this);
+            CropService = new CropService(this);
         }
 
         public void SetImage(BitmapImage bitmapImage)
