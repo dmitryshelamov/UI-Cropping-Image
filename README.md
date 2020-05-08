@@ -27,32 +27,40 @@ Cropping result image info
  
  
  # Basic Setup
+ XAML: 
  
- XAML:
-     
-    <Grid x:Name="RootGrid" MouseLeftButtonDown="RootGrid_OnMouseLeftButtonDown">
-        <Canvas x:Name="CanvasPanel"
-                    Grid.Column="1">
-            <Border Height="{Binding ElementName=CanvasPanel, Path=ActualHeight}" Width="{Binding ElementName=CanvasPanel, Path=ActualWidth}" Background="LightBlue">
-                <Image x:Name = "SourceImage"
-                           Stretch="Fill"/>
-            </Border>
-        </Canvas>
-    </Grid>
-    
-Code Behind: 
-    
-        public CroppingAdorner CroppingAdorner;
-
-        private void RootGrid_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+ In order to properly handle image size, set `SizeToContent ="WidthAndHeight"` to window.
+ There is a custom user control CropToolControl.xaml, that holds all necessary elements to handle crop operation. 
+ Just add this `<croppingImageLibrary:CropToolControl Name="CropTool"></croppingImageLibrary:CropToolControl>`
+ 
+ Here is a example in CroppingWindow.xaml
+ ```
+<Window x:Class="CroppingImageLibrary.SampleApp.CroppingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:croppingImageLibrary="clr-namespace:CroppingImageLibrary;assembly=CroppingImageLibrary"
+        mc:Ignorable="d"
+        Title="CroppingWindow" ResizeMode="NoResize" WindowStartupLocation="Manual" SizeToContent ="WidthAndHeight">
+    <croppingImageLibrary:CropToolControl Name="CropTool"></croppingImageLibrary:CropToolControl>
+</Window>
+ ```
+Code Behind:     
+    You need to pass image to user control, here is simple way describe in CroppingWindow.xaml.cs    
+ ```
+    public partial class CroppingWindow : Window
+    {
+        public CroppingWindow()
         {
-            CroppingAdorner.CaptureMouse();
-            CroppingAdorner.MouseLeftButtonDownEventHandler(sender, e);
+            InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+        public CroppingWindow(BitmapImage bitmapImage)
         {
-            AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(CanvasPanel);
-            CroppingAdorner = new CroppingAdorner(CanvasPanel);
-            adornerLayer.Add(CroppingAdorner);
+            InitializeComponent();
+            //  pass data to custom user control
+            CropTool.SetImage(bitmapImage);
         }
+    }
+ ```
