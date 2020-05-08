@@ -64,3 +64,4 @@ Code Behind:
         }
     }
  ```
+This library return only crop area, not cropped image itself. You need to perform crop operation manually. To get crop area, call CropTool.CropService.GetCroppedArea()
