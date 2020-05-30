@@ -47,7 +47,7 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with:
        name: EZRepBundle
-       path: "./_build"
+       path: "./UI-Cropping-Image/UI-Cropping-Image-Library/CroppingImageLibrary.SampleApp/bin/Release/"
      
     - name: Show Content
       run: dir
