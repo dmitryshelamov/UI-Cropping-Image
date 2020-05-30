@@ -47,7 +47,10 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with:
        name: EZRepBundle
-       path: "/_build"
+       path: "../_build"
+     
+    - name: Show Content
+      run: dir
       
     # Runs a single command using the runners shell
     - name: Run a one-line script
