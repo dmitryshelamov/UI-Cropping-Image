@@ -41,13 +41,13 @@ jobs:
 
     - name: Build Solution
       run: |
-       msbuild.exe UI-Cropping-Image-Library/UI-Cropping-Image-Library.sln /nologo /nr:false /p:DeployOnBuild=true /p:DeployDefaultTarget=WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Release" /p:PublishUrl="./_build"
+       msbuild.exe UI-Cropping-Image-Library/UI-Cropping-Image-Library.sln /nologo /nr:false /p:DeployOnBuild=true  /p:DeleteExistingFiles=True /p:platform="Any CPU" /p:configuration="Release" /p:PublishUrl="../_build"
 
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
       with:
        name: EZRepBundle
-       path: "./_build"
+       path: "/_build"
       
     # Runs a single command using the runners shell
     - name: Run a one-line script
