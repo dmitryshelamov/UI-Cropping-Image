@@ -50,7 +50,7 @@ jobs:
        path: "./UI-Cropping-Image-Library/CroppingImageLibrary.SampleApp/bin/Release/"
      
     - name: Nuget Pack
-      run: nuget pack ./UI-Cropping-Image-Library/CroppingImageLibrary/CroppingImageLibrary.csproj
+      run: nuget pack ./UI-Cropping-Image-Library/CroppingImageLibrary/CroppingImageLibrary.csproj -Properties Configuration=Release
 
      
      
