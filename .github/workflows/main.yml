@@ -53,7 +53,7 @@ jobs:
       run: nuget pack ./UI-Cropping-Image-Library/CroppingImageLibrary/CroppingImageLibrary.csproj -Properties Configuration=Release
 
     - name: Nuget Push
-      run: nuget push CroppingImageLibrary.1.0.0.nupkg ${{ secrets.NUGET_API_KEY }} -Source https://api.nuget.org/v3/index.json   
+      run: nuget push CroppingImageLibrary.1.0.1.nupkg ${{ secrets.NUGET_API_KEY }} -Source https://api.nuget.org/v3/index.json   
 
     - name: Show Content
       run: dir
