@@ -1,6 +1,14 @@
 # UI-Cropping-Image
 A simply UI cropping image library for WPF that use adroner layer. Some screenshots:
 
+### Installing
+
+To install CroppingImageLibrary just execute the following command in your nuget CLI :
+
+```bash
+Install-Package CroppingImageLibrary -Version 1.0.1
+```
+
 Interface of sample app
 
 <img src="https://github.com/dmitryshelamov/UI-Cropping-Image/blob/master/cropped-demo.png" width="400">
