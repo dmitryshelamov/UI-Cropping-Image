@@ -6,5 +6,5 @@
         xmlns:croppingImageLibrary="clr-namespace:CroppingImageLibrary;assembly=CroppingImageLibrary"
         mc:Ignorable="d"
         Title="CroppingWindow" ResizeMode="NoResize" WindowStartupLocation="Manual" SizeToContent ="WidthAndHeight">
-    <croppingImageLibrary:CropToolControl Name="CropTool"></croppingImageLibrary:CropToolControl>
+    <croppingImageLibrary:CropToolControl Name="CropTool" SquareSelection="True" ></croppingImageLibrary:CropToolControl>
 </Window>

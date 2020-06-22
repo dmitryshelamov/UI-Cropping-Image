@@ -33,6 +33,9 @@ namespace CroppingImageLibrary.Services
         private readonly IToolState _dragState;
         private readonly IToolState _completeState;
 
+        //Hack: added by sinathr
+        private readonly bool _squareSelection;
+
         public Adorner Adorner => _cropAdorner;
 
         private enum TouchPoint
@@ -41,8 +44,11 @@ namespace CroppingImageLibrary.Services
             InsideRectangle
         }
 
-        public CropService(FrameworkElement adornedElement)
+        public CropService(FrameworkElement adornedElement , bool squareSelection)
         {
+            //Hack: added by thr
+            _squareSelection = squareSelection;
+
             _canvas = new Canvas
             {
                 Height = adornedElement.ActualHeight,
@@ -67,7 +73,7 @@ namespace CroppingImageLibrary.Services
                     StrokeDashArray = new DoubleCollection(new double[] { 4, 4 })
                 }
             );
-            _cropTool = new CropTool(_canvas);
+            _cropTool = new CropTool(_canvas , _squareSelection);
             _createState = new CreateState(_cropTool, _canvas);
             _completeState = new CompleteState();
             _dragState = new DragState(_cropTool, _canvas);

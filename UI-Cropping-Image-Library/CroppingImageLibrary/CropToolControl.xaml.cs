@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,6 +14,20 @@ namespace CroppingImageLibrary
     public partial class CropToolControl : UserControl
     {
         public CropService CropService { get; private set; }
+
+
+
+
+
+        private bool squareSelection = false;
+        [Description("Whether to force the user to select only square or not"), Category("Data")]
+        public bool SquareSelection
+        {
+            get { return squareSelection; }
+            set { squareSelection = value; }
+        }
+
+
 
         public CropToolControl()
         {
@@ -31,7 +46,7 @@ namespace CroppingImageLibrary
 
         private void RootGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            CropService = new CropService(this);
+            CropService = new CropService(this , SquareSelection);
         }
 
         public void SetImage(BitmapImage bitmapImage)

@@ -19,6 +19,7 @@ namespace CroppingImageLibrary.SampleApp
         {
             InitializeComponent();
             Topmost = true;
+
         }
 
         private void Button_LoadImage(object sender, RoutedEventArgs e)
