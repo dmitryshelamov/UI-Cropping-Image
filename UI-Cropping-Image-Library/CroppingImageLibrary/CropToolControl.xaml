@@ -8,7 +8,9 @@
     <Grid x:Name="RootGrid" MouseLeftButtonDown="RootGrid_OnMouseLeftButtonDown" MouseLeftButtonUp="RootGrid_MouseLeftButtonUp" Loaded="RootGrid_Loaded">
         <Border Background="LightBlue">
             <Image x:Name="SourceImage"
-                   Stretch="None" />
+                   Stretch="Uniform" 
+                   SizeChanged="SourceImage_SizeChanged"
+                   />
         </Border>
     </Grid>
 </UserControl>

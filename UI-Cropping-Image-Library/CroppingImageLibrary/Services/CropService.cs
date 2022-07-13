@@ -32,8 +32,11 @@ namespace CroppingImageLibrary.Services
         private readonly IToolState _createState;
         private readonly IToolState _dragState;
         private readonly IToolState _completeState;
+        private readonly FrameworkElement _adornedElement;
 
         public Adorner Adorner => _cropAdorner;
+
+        public bool IsEnabled { get; private set; }
 
         private enum TouchPoint
         {
@@ -78,6 +81,7 @@ namespace CroppingImageLibrary.Services
             _cropAdorner.MouseLeftButtonUp += AdornerOnMouseLeftButtonUp;
 
             _cropTool.Redraw(0, 0, 0, 0);
+            this._adornedElement = adornedElement;
         }
 
         public CropArea GetCroppedArea() =>
@@ -100,7 +104,6 @@ namespace CroppingImageLibrary.Services
             {
                 _cropTool.Redraw(newPosition.Value.Left, newPosition.Value.Top, newPosition.Value.Width, newPosition.Value.Height);
             }
-
         }
 
         private void AdornerOnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -119,6 +122,23 @@ namespace CroppingImageLibrary.Services
             _currentToolState.OnMouseDown(point);
         }
 
+        public void SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Redraw(_adornedElement.ActualWidth,
+                                _adornedElement.ActualHeight,
+                                e.NewSize.Width / e.PreviousSize.Width,
+                                e.NewSize.Height / e.PreviousSize.Height);
+        }
+
+        public void SetEnabled(bool isEnabled)
+        {
+            IsEnabled = isEnabled;
+            _canvas.Visibility = isEnabled ? Visibility.Visible : Visibility.Hidden;
+            _canvas.IsEnabled = isEnabled;
+            _cropAdorner.Visibility = isEnabled ? Visibility.Visible : Visibility.Hidden;
+            _cropAdorner.IsEnabled = isEnabled;
+        }
+
         private TouchPoint GetTouchPoint(Point mousePoint)
         {
             //left
@@ -135,6 +155,27 @@ namespace CroppingImageLibrary.Services
                 return TouchPoint.OutsideRectangle;
 
             return TouchPoint.InsideRectangle;
+        }
+
+        public void Redraw(double canvasWidth, double canvasHeight)
+        {
+            (_canvas.Width, _canvas.Height) = (canvasWidth, canvasHeight);
+            _cropTool.Redraw(_cropTool.TopLeftX, _cropTool.TopLeftY, _cropTool.Width, _cropTool.Height);
+        }
+        public void Redraw(double canvasWidth, double canvasHeight, double adornerScaleMultiplierX, double adornerScaleMultiplierY)
+        {
+            (_canvas.Width, _canvas.Height) = (canvasWidth, canvasHeight);
+            _cropTool.Redraw(_cropTool.TopLeftX * adornerScaleMultiplierX, _cropTool.TopLeftY * adornerScaleMultiplierY, _cropTool.Width * adornerScaleMultiplierX, _cropTool.Height * adornerScaleMultiplierY);
+        }
+        public void Redraw(double x, double y, double width, double height, double canvasWidth, double canvasHeight, double adornerScaleMultiplierX, double adornerScaleMultiplierY)
+        {
+            (_canvas.Width, _canvas.Height) = (canvasWidth, canvasHeight);
+            _cropTool.Redraw(x * adornerScaleMultiplierX, y * adornerScaleMultiplierY, width * adornerScaleMultiplierX, height * adornerScaleMultiplierY);
+        }
+        public void Redraw(double x, double y, double width, double height, double canvasWidth, double canvasHeight)
+        {
+            (_canvas.Width, _canvas.Height) = (canvasWidth, canvasHeight);
+            _cropTool.Redraw(x, y, width, height);
         }
     }
 }
