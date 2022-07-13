@@ -39,7 +39,7 @@ namespace CroppingImageLibrary
             SourceImage.Source = bitmapImage;
         }
 
-        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void SourceImage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             CropService?.SizeChanged(sender, e);
         }

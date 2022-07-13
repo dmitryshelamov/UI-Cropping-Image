@@ -9,7 +9,7 @@
         <Border Background="LightBlue">
             <Image x:Name="SourceImage"
                    Stretch="Uniform" 
-                   SizeChanged="RootGrid_SizeChanged"
+                   SizeChanged="SourceImage_SizeChanged"
                    />
         </Border>
     </Grid>
