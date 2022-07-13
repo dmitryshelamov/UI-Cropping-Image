@@ -31,14 +31,17 @@ namespace CroppingImageLibrary
 
         private void RootGrid_Loaded(object sender, RoutedEventArgs e)
         {
-            CropService = new CropService(this);
+            CropService = new CropService(SourceImage);
         }
 
         public void SetImage(BitmapImage bitmapImage)
         {
             SourceImage.Source = bitmapImage;
-            RootGrid.Height = bitmapImage.Height;
-            RootGrid.Width = bitmapImage.Width;
+        }
+
+        private void RootGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            CropService?.SizeChanged(sender, e);
         }
     }
 }
